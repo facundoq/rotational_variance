@@ -2,7 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f93515df-dca8-4b95-ba24-f624e9525176" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/collapsed_classes.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/collapsed_classes.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/collapsed_global.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/collapsed_global.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class0.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class1.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class2.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class3.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class4.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class5.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class6.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class7.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class8.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class9.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_class9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_classall.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_classall.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_classall_stratified.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/rotated_classall_stratified.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class0.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class1.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class2.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class3.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class4.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class5.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class6.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class7.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class8.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class8.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class9.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_class9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_classall.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_classall.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_classall_stratified.png" beforeDir="false" afterPath="$PROJECT_DIR$/plots/var/SimpleConv_mnist/unrotated_classall_stratified.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,12 +37,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/experiment_variance.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
+            <state relative-caret-position="700">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
             </state>
           </provider>
         </entry>
@@ -38,20 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/experiment_runner.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="798">
-              <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="710">
-                <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
-              </first_editor>
-              <second_editor />
+            <state relative-caret-position="1450">
+              <caret line="58" selection-start-line="58" selection-end-line="58" />
             </state>
           </provider>
         </entry>
@@ -83,6 +97,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -104,7 +119,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -140,13 +154,9 @@
     <frame x="90" y="0" width="1830" height="1080" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24986118" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -154,6 +164,10 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -170,10 +184,20 @@
     <entry file="file://$PROJECT_DIR$/utils.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="710">
+            <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/experiment_variance.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        <state relative-caret-position="700">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>
@@ -189,18 +213,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/experiment_runner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="710">
-            <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
-          </first_editor>
-          <second_editor />
+        <state relative-caret-position="1450">
+          <caret line="58" selection-start-line="58" selection-end-line="58" />
         </state>
       </provider>
     </entry>
