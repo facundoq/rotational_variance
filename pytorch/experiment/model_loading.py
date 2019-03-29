@@ -100,7 +100,7 @@ def get_epochs(dataset,model):
         rotated_epochs={'cifar10':150,'mnist':50,'fashion_mnist':60,'cluttered_mnist':30,'lsa16':100,'mnist_rot':5,
                         'pugeault':40}
     elif model== models.AllConv.__name__:
-        epochs={'cifar10':70,'mnist':15,'fashion_mnist':12,'cluttered_mnist':10,'lsa16':50,'mnist_rot':5,'pugeault':15}
+        epochs={'cifar10':70,'mnist':20,'fashion_mnist':12,'cluttered_mnist':10,'lsa16':50,'mnist_rot':5,'pugeault':15}
         rotated_epochs={'cifar10':150,'mnist':50,'fashion_mnist':60,'cluttered_mnist':30,'lsa16':100,'mnist_rot':5,
                         'pugeault':40}
     elif model== models.VGGLike.__name__:
@@ -112,5 +112,5 @@ def get_epochs(dataset,model):
         rotated_epochs={'cifar10':150,'mnist':50,'fashion_mnist':60,'cluttered_mnist':30,'lsa16':100,'mnist_rot':5,
                         'pugeault':40}
     else:
-        raise ValueError(f"Model \"{name}\" does not exist. Choices: {', '.join(get_model_names().keys())}")
+        raise ValueError(f"Model \"{model}\" does not exist. Choices: {', '.join(get_model_names().keys())}")
     return epochs[dataset],rotated_epochs[dataset]

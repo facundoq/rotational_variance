@@ -106,60 +106,60 @@ class ConvBNAct(nn.Module):
     def forward(self,x):
         return self.model.forward(x)
 
-class AllConv(nn.Module):
-    def __init__(self, input_shape, num_classes, filters=96):
-        super(AllConv, self).__init__()
-        self.name = self.__class__.__name__
-        filters2 = filters * 2
-        h, w, channels = input_shape
-
-        self.conv = nn.Sequential(
-            nn.Conv2d(channels, filters, kernel_size=3, padding=1),
-            nn.BatchNorm2d(filters),
-            nn.ReLU(),
-            ConvBNAct(filters, filters),
-            ConvBNAct(filters, filters, stride=2),
-            ConvBNAct(filters, filters2, ),
-            ConvBNAct(filters2, filters2),
-            ConvBNAct(filters2, filters2, stride=2),
-            ConvBNAct(filters2, filters2),
-            ConvBNAct(filters2, filters2, kernel_size=1),
-
-        )
-
-        final_channels = filters2
-
-        self.class_conv = nn.Conv2d(final_channels, num_classes, 1)
-
-    def forward(self, x):
-        # # print(x.shape)
-        # x = F.relu(self.conv1(x))
-        # # print(x.shape)
-        # x = F.relu(self.conv2(x))
-        # # print(x.shape)
-        # x = F.relu(self.conv3(x))
-        # # print(x.shape)
-        # x = F.relu(self.conv4(x))
-        # # print(x.shape)
-        # # print(x.shape)
-        # x = F.relu(self.conv5(x))
-        x = self.conv(x)
-
-        class_out = F.relu(self.class_conv(x))
-        pool_out = class_out.reshape(class_out.size(0), class_out.size(1), -1).mean(-1)
-        # pool_out = F.adaptive_avg_pool2d(class_out, 1)
-        # pool_out.squeeze_(-1)
-        # pool_out.squeeze_(-1)
-
-        log_probabilities = F.log_softmax(pool_out, dim=1)
-        return log_probabilities
-
-    def layer_names(self):
-        return [f"conv{i}" for i in range(8)] + ["class_conv"]
-
-    def layers(self):
-        convs=list(self.conv.children())
-        return [convs[0]]+[list(convs[i].model.children())[0] for i in range(3,10)]
-
-
-        # return x
+# class AllConv(nn.Module):
+#     def __init__(self, input_shape, num_classes, filters=96):
+#         super(AllConv, self).__init__()
+#         self.name = self.__class__.__name__
+#         filters2 = filters * 2
+#         h, w, channels = input_shape
+#
+#         self.conv = nn.Sequential(
+#             nn.Conv2d(channels, filters, kernel_size=3, padding=1),
+#             nn.BatchNorm2d(filters),
+#             nn.ReLU(),
+#             ConvBNAct(filters, filters),
+#             ConvBNAct(filters, filters, stride=2),
+#             ConvBNAct(filters, filters2, ),
+#             ConvBNAct(filters2, filters2),
+#             ConvBNAct(filters2, filters2, stride=2),
+#             ConvBNAct(filters2, filters2),
+#             ConvBNAct(filters2, filters2, kernel_size=1),
+#
+#         )
+#
+#         final_channels = filters2
+#
+#         self.class_conv = nn.Conv2d(final_channels, num_classes, 1)
+#
+#     def forward(self, x):
+#         # # print(x.shape)
+#         # x = F.relu(self.conv1(x))
+#         # # print(x.shape)
+#         # x = F.relu(self.conv2(x))
+#         # # print(x.shape)
+#         # x = F.relu(self.conv3(x))
+#         # # print(x.shape)
+#         # x = F.relu(self.conv4(x))
+#         # # print(x.shape)
+#         # # print(x.shape)
+#         # x = F.relu(self.conv5(x))
+#         x = self.conv(x)
+#
+#         class_out = F.relu(self.class_conv(x))
+#         pool_out = class_out.reshape(class_out.size(0), class_out.size(1), -1).mean(-1)
+#         # pool_out = F.adaptive_avg_pool2d(class_out, 1)
+#         # pool_out.squeeze_(-1)
+#         # pool_out.squeeze_(-1)
+#
+#         log_probabilities = F.log_softmax(pool_out, dim=1)
+#         return log_probabilities
+#
+#     def layer_names(self):
+#         return [f"conv{i}" for i in range(8)] + ["class_conv"]
+#
+#     def layers(self):
+#         convs=list(self.conv.children())
+#         return [convs[0]]+[list(convs[i].model.children())[0] for i in range(3,10)]
+#
+#
+#         # return x
