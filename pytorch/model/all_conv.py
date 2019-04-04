@@ -2,6 +2,23 @@ import torch.nn as nn
 import torch.nn.functional as F
 from pytorch.model.util import SequentialWithIntermediates
 
+
+class ConvBN(nn.Module):
+    def __init__(self,in_filters,out_filters,kernel_size,stride=1):
+        super(ConvBN, self).__init__()
+        if kernel_size==0:
+            padding=0
+        else:
+            padding=1
+        self.model=nn.Sequential(
+            nn.Conv2d(in_filters, out_filters, kernel_size=kernel_size, padding=padding,stride=stride),
+            nn.BatchNorm2d(out_filters),
+        )
+
+    def forward(self,x):
+        return self.model.forward(x)
+
+
 class AllConvolutional(nn.Module):
     def __init__(self, input_shape, num_classes=10,filters=96,dropout=False):
         super(AllConvolutional, self).__init__()
@@ -9,14 +26,14 @@ class AllConvolutional(nn.Module):
         h,w,c=input_shape
         filters2=filters*2
         self.dropout=dropout
-        self.conv1 = nn.Conv2d(c, filters, 3, padding=1)
-        self.conv2 = nn.Conv2d(filters, filters, 3, padding=1)
-        self.conv3 = nn.Conv2d(filters, filters, 3, padding=1, stride=2)
-        self.conv4 = nn.Conv2d(filters, filters2, 3, padding=1)
-        self.conv5 = nn.Conv2d(filters2, filters2, 3, padding=1)
-        self.conv6 = nn.Conv2d(filters2, filters2, 3, padding=1, stride=2)
-        self.conv7 = nn.Conv2d(filters2, filters2, 3, padding=1)
-        self.conv8 = nn.Conv2d(filters2, filters2, 1)
+        self.conv1 = ConvBN(c, filters, 3)
+        self.conv2 = ConvBN(filters, filters, 3)
+        self.conv3 = ConvBN(filters, filters, 3,stride=2)
+        self.conv4 = ConvBN(filters, filters2, 3)
+        self.conv5 = ConvBN(filters2, filters2, 3)
+        self.conv6 = ConvBN(filters2, filters2, 3, stride=2)
+        self.conv7 = ConvBN(filters2, filters2, 3)
+        self.conv8 = ConvBN(filters2, filters2, 1)
         self.class_conv = nn.Conv2d(filters2, num_classes, 1)
 
         self.layers= [self.conv1, self.conv2, self.conv3, self.conv4,
@@ -29,17 +46,13 @@ class AllConvolutional(nn.Module):
     def forward_intermediates(self, x):
 
         intermediates=[]
-        dropout_probabilities=[.2,.5,.5]
-        layer=0
-        for i in range(3):
-            if self.dropout:
-                x = F.dropout(x, dropout_probabilities[i])
-            for j in range(3):
-                x=self.layers[layer](x)
+
+        for layer in self.layers[0:-1]:
+                x=layer(x)
                 intermediates.append(x)
                 x=F.relu(x)
                 intermediates.append(x)
-                layer+=1
+
         # x = F.dropout(x, .2)
         # conv1_out = F.relu(self.conv1(x))
         # conv2_out = F.relu(self.conv2(conv1_out))
@@ -88,6 +101,7 @@ class AllConvolutional(nn.Module):
         names+=["avgpool","logsoftmax"]
 
         return names
+
 
 
 class ConvBNAct(nn.Module):
