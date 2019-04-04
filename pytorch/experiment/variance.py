@@ -1,4 +1,4 @@
-
+import pickle
 import matplotlib.pyplot as plt
 from pytorch.experiment.utils import RunningMeanAndVariance
 from collections import namedtuple
@@ -365,3 +365,22 @@ def plot_all(model,rotated_model,dataset,results):
 def run_and_plot_all(model,rotated_model,dataset, config, n_rotations = 16):
     results=run_all(model,rotated_model,dataset, config, n_rotations)
     plot_all(model,rotated_model,dataset,results)
+
+
+results_folder="variance_results"
+def get_path(model_name,dataset_name):
+    return os.path.join(results_folder, f"{model_name}_{dataset_name}.pickle")
+
+def get_model_and_dataset_from_path(path):
+    filename=os.path.splitext(path)[0]
+    model,dataset=filename.split("_")
+    return model, dataset
+def save_results(model_name,dataset_name,results):
+    path=get_path(model_name,dataset_name)
+    basename=os.path.dirname(path)
+    os.makedirs(basename,exist_ok=True)
+    pickle.dump(results,open(path,"wb"))
+
+def load_results(model_name,dataset_name):
+    path = get_path(model_name, dataset_name)
+    return pickle.load(open(path, "rb"))

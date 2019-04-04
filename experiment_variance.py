@@ -1,6 +1,9 @@
+## Calculate the variance of each activation in a model.
 ## NOTE:
-## You should run "experiment_rotation.py" before this script to generate the models for
+## You should run "experiment_rotation.py" before this script to generate and train the models for
 ## a given dataset/model combination
+
+
 
 import matplotlib as mpl
 mpl.use('Agg')
@@ -8,7 +11,7 @@ import matplotlib.pyplot as plt
 
 plt.rcParams['image.cmap'] = 'gray'
 import logging
-logging.getLogger().setLevel(logging.DEBUG)
+
 
 
 
@@ -46,5 +49,8 @@ from pytorch.experiment import variance
 logging.info("Plotting...")
 n_rotations=16
 results=variance.run_all(model,rotated_model,dataset, config, n_rotations)
+variance.save_results(model.name,dataset.name,results)
+results=variance.load_results(model.name,dataset.name)
 variance.plot_all(model,rotated_model,dataset,results)
+
 #variance.run_and_plot_all(model,rotated_model,dataset, config, n_rotations = 16)
