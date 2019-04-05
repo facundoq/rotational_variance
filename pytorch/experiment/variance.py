@@ -14,14 +14,14 @@ from pytorch.dataset import get_data_generator
 
 from pytorch.dataset import ImageDataset
 
-def run_all_dataset(model,dataset,config,rotations,batch_size=256):
+def run_all_dataset(model,dataset,config,rotations,conv_aggregation_function,batch_size=256):
     n=dataset.x_test.shape[0]
     effective_batch_size = min(n, batch_size)
     dataset= ImageDataset(dataset.x_test,dataset.y_test, rotation=True)
-    layer_vars = eval_var(dataset, model, config, rotations, effective_batch_size)
+    layer_vars = eval_var(dataset, model, config, rotations, effective_batch_size,conv_aggregation_function)
     return [layer_vars],[0]
 
-def run(model,dataset,config,rotations,batch_size=256):
+def run(model,dataset,config,rotations,conv_aggregation_function,batch_size=256):
     x = dataset.x_test
     y=dataset.y_test
     y_ids=y.argmax(axis=1)
@@ -38,7 +38,7 @@ def run(model,dataset,config,rotations,batch_size=256):
         n=x_class.shape[0]
         class_dataset=ImageDataset(x_class,y_class,rotation=True)
         effective_batch_size=min(n,batch_size)
-        layer_vars=eval_var(class_dataset, model, config, rotations, effective_batch_size)
+        layer_vars=eval_var(class_dataset, model, config, rotations, effective_batch_size,conv_aggregation_function)
         class_layer_vars.append(layer_vars)
     stratified_layer_vars=eval_stratified_var(class_layer_vars)
 
@@ -52,10 +52,10 @@ def eval_stratified_var(class_layer_vars):
     return [layer_vars]
 
 # calculate the var measure for a given dataset and model
-def eval_var(dataset,model,config,rotations,batch_size):
+def eval_var(dataset,model,config,rotations,batch_size,conv_aggregation_function):
     #baseline vars
-    layer_vars_baselines=get_baseline_variance_class(dataset,model,config,rotations,batch_size)
-    layer_vars = eval_var_class(dataset, model, config, rotations,batch_size)
+    layer_vars_baselines=get_baseline_variance_class(dataset,model,config,rotations,batch_size,conv_aggregation_function)
+    layer_vars = eval_var_class(dataset, model, config, rotations,batch_size,conv_aggregation_function)
     normalized_layer_vars = calculate_var(layer_vars_baselines,layer_vars)
 
     # for i in range(len(layer_vars_baselines)):
@@ -83,7 +83,7 @@ def calculate_var(layer_baselines, layer_measures):
         measures.append(normalized_measure)
     return measures
 
-def get_baseline_variance_class(dataset,model,config,rotations,batch_size):
+def get_baseline_variance_class(dataset,model,config,rotations,batch_size,conv_aggregation_function):
     n_intermediates = model.n_intermediates()
     baseline_variances = [RunningMeanAndVariance() for i in range(n_intermediates)]
 
@@ -93,7 +93,7 @@ def get_baseline_variance_class(dataset,model,config,rotations,batch_size):
         dataset.update_rotation_angle(degrees)
         dataloader=DataLoader(dataset,batch_size=batch_size,shuffle=False, num_workers=0,drop_last=True)
         # calculate std for all examples and this rotation
-        dataset_var=get_dataset_var(model,dataloader,config)
+        dataset_var=get_dataset_var(model,dataloader,config,conv_aggregation_function)
         #update the mean of the stds for every rotation
         # each std is intra rotation/class, so it measures the baseline
         # std for that activation
@@ -102,7 +102,7 @@ def get_baseline_variance_class(dataset,model,config,rotations,batch_size):
     mean_baseline_variances=[b.mean() for b in baseline_variances]
     return mean_baseline_variances
 
-def get_dataset_var(model,dataloader,config):
+def get_dataset_var(model,dataloader,config,conv_aggregation_function):
     n_intermediates = model.n_intermediates()
     var = [RunningMeanAndVariance() for i in range(n_intermediates)]
     for x,y_true in dataloader:
@@ -111,7 +111,7 @@ def get_dataset_var(model,dataloader,config):
         with torch.no_grad():
             y, intermediates = model.forward_intermediates(x)
             for j, intermediate in enumerate(intermediates):
-                flat_activations=transform_activations(intermediate)
+                flat_activations=transform_activations(intermediate,conv_aggregation_function)
                 for h in range(flat_activations.shape[0]):
                     var[j].update(flat_activations[h,:])
     return var
@@ -124,7 +124,7 @@ def get_dataset_var(model,dataloader,config):
 # one for each intermediate output of the model.
 #Each RunningMeanAndVariance contains the mean and std of each intermediate
 # output over the set of rotations
-def eval_var_class(dataset,model,config,rotations,batch_size):
+def eval_var_class(dataset,model,config,rotations,batch_size,conv_aggregation_function):
     n_intermediates = model.n_intermediates()
     layer_vars= [RunningMeanAndVariance() for i in range(n_intermediates)]
     n = len(dataset)
@@ -140,7 +140,7 @@ def eval_var_class(dataset,model,config,rotations,batch_size):
                 x = x.cuda()
             with torch.no_grad():
                 y, batch_activations= model.forward_intermediates(x)
-                batch_activations=[transform_activations(a) for a in batch_activations]
+                batch_activations=[transform_activations(a,conv_aggregation_function) for a in batch_activations]
                 batch_var.update(batch_activations)
         batch_var.update_global_measures(layer_vars)
 
@@ -166,7 +166,7 @@ class BatchvarMeasure:
                 mean_var.update(self.batch_stats[i, j].std())
 
 
-def transform_activations(activations_gpu):
+def transform_activations(activations_gpu,conv_aggregation_function):
     activations = activations_gpu.detach().cpu().numpy()
 
     # if conv average out spatial dims
@@ -174,7 +174,12 @@ def transform_activations(activations_gpu):
         n, c, w, h = activations.shape
         flat_activations = np.zeros((n, c))
         for i in range(n):
-            flat_activations[i, :] = activations[i, :, :, :].mean(axis=(1, 2))
+            if conv_aggregation_function=="mean":
+                flat_activations[i, :] = activations[i, :, :, :].mean(axis=(1, 2))
+            elif conv_aggregation_function=="max":
+                flat_activations[i, :] = activations[i, :, :, :].max(axis=(1, 2))
+            else:
+                raise ValueError(f"Invalid aggregation function: {conv_aggregation_function}. Options: mean, max")
         assert (len(flat_activations.shape) == 2)
     else:
         flat_activations = activations
@@ -184,7 +189,7 @@ def transform_activations(activations_gpu):
 
 
 
-def plot_class_outputs(class_id, cvs,vmin,vmax, names,model_name,dataset_name,savefig,savefig_suffix):
+def plot_class_outputs(class_index,class_id, cvs,vmin,vmax, names,model_name,dataset_name,savefig,savefig_suffix):
     n = len(names)
     f, axes = plt.subplots(1, n, dpi=150)
 
@@ -195,17 +200,20 @@ def plot_class_outputs(class_id, cvs,vmin,vmax, names,model_name,dataset_name,sa
         cv = cv[:, np.newaxis]
         mappable=ax.imshow(cv,vmin=vmin,vmax=vmax,cmap='inferno',aspect="auto")
         #mappable = ax.imshow(cv, cmap='inferno')
-        ax.set_title(name, fontsize=5)
+        if n<40:
+            if len(name)>6:
+                name=name[:6]
+            ax.set_title(name, fontsize=4)
 
         # logging.debug(f"plotting stats of layer {name} of class {class_id}, shape {stat.mean().shape}")
-    f.suptitle(f"sigma for class {class_id}")
+    f.suptitle(f"Variance of activations for class {class_index} ({class_id})")
     f.subplots_adjust(right=0.8)
     cbar_ax = f.add_axes([0.85, 0.15, 0.05, 0.7])
     cbar=f.colorbar(mappable, cax=cbar_ax, extend='max')
     cbar.cmap.set_over('green')
     cbar.cmap.set_bad(color='blue')
     if savefig:
-        image_name=f"{savefig_suffix}_class{class_id}.png"
+        image_name=f"{savefig_suffix}_class{class_index:02}_{class_id}.png"
         path=os.path.join(savefig,image_name)
         plt.savefig(path)
     plt.show()
@@ -258,7 +266,7 @@ def plot(all_stds,model,dataset_name,savefig=False,savefig_suffix="",class_names
             name=class_names[c]
         else:
             name=str(c)
-        plot_class_outputs(name, stds,vmin,vmax, model.intermediates_names(),model.name,
+        plot_class_outputs(i,name, stds,vmin,vmax, model.intermediates_names(),model.name,
                            dataset_name,savefig,
                            savefig_suffix)
 
@@ -272,14 +280,16 @@ def plot_collapsing_layers(rotated_measures,measures,labels,savefig=None, savefi
     color = plt.cm.hsv(np.linspace(0.1, 0.9, n))
 
 
-    f,ax=plt.subplots(dpi=min(300,max(150,n*15)))
+    f,ax=plt.subplots(dpi=min(350,max(150,n*15)))
     for rotated_measure,measure,label,i in zip(rotated_measures_collapsed,measures_collapsed,labels,range(n)):
         x_rotated=np.arange(rotated_measure.shape[0])
         x=np.arange(measure.shape[0])
         ax.plot(x_rotated,rotated_measure,label="rotated_"+label,linestyle="-",color=color[i,:])
         ax.plot(x,measure,label="unrotated_"+label,linestyle="--",color=color[i,:]*0.5)
+        ax.set_ylabel("Variance")
+        ax.set_xlabel("Layer")
         # ax.set_ylim(max_measure)
-
+        ax.set_xticks(range(len(x)))
     handles, labels = ax.get_legend_handles_labels()
 
     # reverse the order
@@ -300,28 +310,37 @@ def plot_collapsing_layers(rotated_measures,measures,labels,savefig=None, savefi
 
 
 def collapse_measure_layers(measures):
-    return [np.array([np.mean(layer) for layer in measure]) for measure in measures]
+    return [np.array([np.nanmean(layer) for layer in measure]) for measure in measures]
 
 
-def run_all(model,rotated_model,dataset, config, n_rotations):
+def run_all(model,rotated_model,dataset, config, n_rotations,conv_aggregation_function,batch_size=256):
     rotations = np.linspace(-180, 180, n_rotations, endpoint=False)
 
     print("Calculating variance for all samples by class...")
-    rotated_var, rotated_stratified_layer_vars, classes = run(rotated_model, dataset, config, rotations)
-    var, stratified_layer_vars, classes = run(model, dataset, config, rotations)
+    rotated_var, rotated_stratified_layer_vars, classes = run(rotated_model, dataset, config, rotations,conv_aggregation_function,batch_size=batch_size,)
+    var, stratified_layer_vars, classes = run(model, dataset, config, rotations,conv_aggregation_function,batch_size=batch_size)
 
     # Plot variance for all
     print("Calculating variance for all samples...")
     rotated_var_all_dataset, classes = run_all_dataset(rotated_model, dataset, config,
-                                                       rotations)
-    var_all_dataset, classes = run_all_dataset(model, dataset, config, rotations)
+                                                       rotations,conv_aggregation_function,batch_size=batch_size)
+    var_all_dataset, classes = run_all_dataset(model, dataset, config, rotations,conv_aggregation_function,batch_size=batch_size)
     return var,stratified_layer_vars,var_all_dataset,rotated_var,rotated_stratified_layer_vars,rotated_var_all_dataset
+
+
+def plots_base_folder():
+    #return os.path.expanduser("~/variance_results/plots/")
+    return os.path.join("plots")
+
+def plots_folder(model,dataset):
+    folderpath = os.path.join(plots_base_folder(), f"{model}_{dataset}")
+    if not os.path.exists(folderpath):
+        os.makedirs(folderpath,exist_ok=True)
+    return folderpath
 
 def plot_all(model,rotated_model,dataset,results):
 
-    folderpath = os.path.join("plots", "var", f"{model.name}_{dataset.name}")
-    if not os.path.exists(folderpath):
-        os.makedirs(folderpath)
+    folderpath=plots_folder(model.name,dataset.name)
     var, stratified_layer_vars, var_all_dataset, rotated_var, rotated_stratified_layer_vars, rotated_var_all_dataset=results
     vmin, vmax = outlier_range_all(results,iqr_away=3)
     vmin = vmin_all = vmin_class = 0
@@ -369,15 +388,15 @@ def run_and_plot_all(model,rotated_model,dataset, config, n_rotations = 16):
 
 def global_average_variance(result):
     rm=RunningMean()
-
     for layers in result:
         for layer in layers:
             for act in layer[:]:
-                rm.update(act)
-
+                if np.isfinite(act):
+                    rm.update(act)
     return rm.mean()
 
-results_folder="variance_results"
+results_folder=os.path.expanduser("~/variance_results/values")
+
 def get_path(model_name,dataset_name):
     return os.path.join(results_folder, f"{model_name}_{dataset_name}.pickle")
 
@@ -386,6 +405,7 @@ def get_model_and_dataset_from_path(path):
     filename=os.path.splitext(filename_ext)[0]
     model,dataset=filename.split("_")
     return model, dataset
+
 def save_results(model_name,dataset_name,results):
     path=get_path(model_name,dataset_name)
     basename=os.path.dirname(path)

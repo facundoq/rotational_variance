@@ -3,17 +3,12 @@
 ## You should run "experiment_rotation.py" before this script to generate and train the models for
 ## a given dataset/model combination
 
-
-
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 
 plt.rcParams['image.cmap'] = 'gray'
 import logging
-
-
-
 
 from pytorch import models
 from pytorch import dataset as datasets
@@ -48,9 +43,11 @@ if verbose:
 from pytorch.experiment import variance
 logging.info("Plotting...")
 n_rotations=16
-results=variance.run_all(model,rotated_model,dataset, config, n_rotations)
+conv_aggregation_function="max"
+results=variance.run_all(model,rotated_model,dataset, config, n_rotations,conv_aggregation_function,batch_size=64)
 variance.save_results(model.name,dataset.name,results)
-results=variance.load_results(model.name,dataset.name)
-variance.plot_all(model,rotated_model,dataset,results)
 
-#variance.run_and_plot_all(model,rotated_model,dataset, config, n_rotations = 16)
+
+# logging.info("Plotting results...")
+# results=variance.load_results(model.name,dataset.name)
+# variance.plot_all(model,rotated_model,dataset,results)

@@ -87,12 +87,12 @@ class Bottleneck(nn.Module):
 
         out=self.conv1(x)
         outputs.append(out)
-        out = F.relu(self.bn1())
+        out = F.relu(self.bn1(out))
         outputs.append(out)
 
         out=self.conv2(out)
         outputs.append(out)
-        out = F.relu(self.bn2())
+        out = F.relu(self.bn2(out))
         outputs.append(out)
 
         out=self.conv3(out)
@@ -177,6 +177,7 @@ class ResNet(nn.Module):
         x = F.log_softmax(x, dim=1)
         outputs.append(x)
         return x,outputs
+
     def layer_intermediates(self,layer,x):
         outputs=[]
         for block in layer:
@@ -187,6 +188,7 @@ class ResNet(nn.Module):
 
     def n_intermediates(self):
         return len(self.intermediates_names())
+
     def intermediates_names(self):
         names=["c0","c0act"]
         for i,l in enumerate([self.layer1,self.layer2,self.layer3,self.layer4]):

@@ -10,7 +10,6 @@ class ExperimentModel:
 
 def get_model_names():
     return [models.SimpleConv.__name__
-            # ,pytorch_models.AllConv.__name__
         , models.AllConvolutional.__name__
         , models.VGGLike.__name__
         , models.ResNet.__name__]
@@ -39,16 +38,6 @@ def get_model(name,dataset,use_cuda):
         filters = {"mnist": 16, "mnist_rot": 32, "cifar10": 64, "fashion_mnist": 32, "lsa16": 16}
         model = models.AllConvolutional(dataset.input_shape, dataset.num_classes,
                                         filters=filters[dataset.name])
-        optimizer=setup_model(model,1e-3,1e-13)
-        rotated_model = models.AllConvolutional(dataset.input_shape, dataset.num_classes,
-                                                filters=filters[dataset.name])
-        rotated_optimizer = setup_model(rotated_model, 1e-3, 1e-13)
-
-        return model, optimizer, rotated_model, rotated_optimizer
-    def all_conv():
-        filters = {"mnist": 16, "mnist_rot": 32, "cifar10": 64, "fashion_mnist": 32, "lsa16": 16}
-        model = models.AllConv(dataset.input_shape, dataset.num_classes,
-                               filters=filters[dataset.name])
         optimizer=setup_model(model,1e-3,1e-13)
         rotated_model = models.AllConvolutional(dataset.input_shape, dataset.num_classes,
                                                 filters=filters[dataset.name])
@@ -97,11 +86,7 @@ def get_epochs(dataset,model):
         rotated_epochs={'cifar10':120,'mnist':15,'fashion_mnist':60,'cluttered_mnist':30,'lsa16':100,'mnist_rot':5,'pugeault':40}
     elif model== models.AllConvolutional.__name__:
         epochs={'cifar10':32,'mnist':15,'fashion_mnist':12,'cluttered_mnist':10,'lsa16':50,'mnist_rot':5,'pugeault':15}
-        rotated_epochs={'cifar10':150,'mnist':50,'fashion_mnist':60,'cluttered_mnist':30,'lsa16':100,'mnist_rot':5,
-                        'pugeault':40}
-    elif model== models.AllConv.__name__:
-        epochs={'cifar10':70,'mnist':20,'fashion_mnist':12,'cluttered_mnist':10,'lsa16':50,'mnist_rot':5,'pugeault':15}
-        rotated_epochs={'cifar10':150,'mnist':50,'fashion_mnist':60,'cluttered_mnist':30,'lsa16':100,'mnist_rot':5,
+        rotated_epochs={'cifar10':60,'mnist':50,'fashion_mnist':60,'cluttered_mnist':30,'lsa16':100,'mnist_rot':5,
                         'pugeault':40}
     elif model== models.VGGLike.__name__:
         epochs={'cifar10':70,'mnist':15,'fashion_mnist':12,'cluttered_mnist':10,'lsa16':50,'mnist_rot':5,'pugeault':15}
