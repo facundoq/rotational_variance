@@ -41,10 +41,12 @@ if verbose:
     rotation.print_scores(scores)
 
 from pytorch.experiment import variance
-logging.info("Plotting...")
+
 n_rotations=16
 conv_aggregation_function="max"
+logging.info(f"Calculating measure with aggregation function {conv_aggregation_function} for conv layers and {n_rotations} rotations...")
 results=variance.run_all(model,rotated_model,dataset, config, n_rotations,conv_aggregation_function,batch_size=64)
+logging.info("Saving results...")
 variance.save_results(model.name,dataset.name,results,conv_aggregation_function)
 
 
