@@ -1,6 +1,6 @@
 import pickle
 import matplotlib.pyplot as plt
-from pytorch.experiment.utils import RunningMeanAndVariance
+from pytorch.experiment.utils import RunningMeanAndVariance,RunningMean
 from collections import namedtuple
 import numpy as np
 from torch.utils.data import Dataset,DataLoader
@@ -367,12 +367,23 @@ def run_and_plot_all(model,rotated_model,dataset, config, n_rotations = 16):
     plot_all(model,rotated_model,dataset,results)
 
 
+def global_average_variance(result):
+    rm=RunningMean()
+
+    for layers in result:
+        for layer in layers:
+            for act in layer[:]:
+                rm.update(act)
+
+    return rm.mean()
+
 results_folder="variance_results"
 def get_path(model_name,dataset_name):
     return os.path.join(results_folder, f"{model_name}_{dataset_name}.pickle")
 
 def get_model_and_dataset_from_path(path):
-    filename=os.path.splitext(path)[0]
+    filename_ext=os.path.basename(path)
+    filename=os.path.splitext(filename_ext)[0]
     model,dataset=filename.split("_")
     return model, dataset
 def save_results(model_name,dataset_name,results):

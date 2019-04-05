@@ -40,8 +40,8 @@ model_names=model_loading.get_model_names()
 model_names=["AllConvolutional","SimpleConv","ResNet","VGGLike"]
 dataset_names=datasets.names
 dataset_names=["mnist","cifar10"]
-train=True
-experiments=["experiment_variance","experiment_accuracy_vs_rotation"]
+train=False
+experiments=["experiment_variance"]
 
 message=f"""Running experiments, train={train}
 Experiments: {", ".join(experiments)}

@@ -42,7 +42,7 @@ if verbose:
 
 # TRAINING
 pre_rotated_epochs=0
-batch_size = 64
+batch_size = 256
 epochs,rotated_epochs=model_loading.get_epochs(dataset.name, model_name)
 config=rotation.TrainRotatedConfig(batch_size=batch_size,
                        epochs=epochs,rotated_epochs=rotated_epochs,

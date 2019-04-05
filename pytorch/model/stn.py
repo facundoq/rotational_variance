@@ -6,7 +6,7 @@ import torch
 from torch.autograd import Variable
 from pytorch.model.simple_conv import SimpleConv
 from .util import Flatten
-from .all_conv import AllConvolutional,AllConv
+from .all_conv import AllConvolutional
 
 
 
@@ -87,7 +87,7 @@ class SimpleSTN(STN):
 
 class AllConvSTN(STN):
     def __init__(self, input_shape, num_classes, filters,only_rotation=True):
-        net = AllConv(input_shape, num_classes,filters=filters)
+        net = AllConvolutional(input_shape, num_classes,filters=filters)
         super(AllConvSTN, self).__init__(input_shape, num_classes,only_rotation,net=net)
         self.name="AllConvolutionalSTN"
 
