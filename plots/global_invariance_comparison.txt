@@ -1,3 +1,7 @@
+max_mnist_rotated_SimpleConv => 0.8424126764855208
+max_mnist_unrotated_SimpleConv => 0.9035745761073752
+max_stratified_mnist_rotated_SimpleConv => 1.0795934444638848
+max_stratified_mnist_unrotated_SimpleConv => 1.131703932585442
 mean_cifar10_rotated_AllConvolutional => 0.47134122685777213
 mean_cifar10_rotated_SimpleConv => 0.5439562599163014
 mean_cifar10_rotated_VGGLike => 0.4984134047272789

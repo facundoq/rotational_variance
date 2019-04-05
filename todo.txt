@@ -1,0 +1,3 @@
+- escribir metodología: como se entrena, data augmentation
+- escribir experimentos
+- describir modelos
