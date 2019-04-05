@@ -332,15 +332,15 @@ def plots_base_folder():
     #return os.path.expanduser("~/variance_results/plots/")
     return os.path.join("plots")
 
-def plots_folder(model,dataset):
-    folderpath = os.path.join(plots_base_folder(), f"{model}_{dataset}")
+def plots_folder(model,dataset,conv_aggregation):
+    folderpath = os.path.join(plots_base_folder(), f"{model}_{dataset}_{conv_aggregation}")
     if not os.path.exists(folderpath):
         os.makedirs(folderpath,exist_ok=True)
     return folderpath
 
-def plot_all(model,rotated_model,dataset,results):
+def plot_all(model,rotated_model,dataset,conv_aggregation,results):
 
-    folderpath=plots_folder(model.name,dataset.name)
+    folderpath=plots_folder(model.name,dataset.name,conv_aggregation)
     var, stratified_layer_vars, var_all_dataset, rotated_var, rotated_stratified_layer_vars, rotated_var_all_dataset=results
     vmin, vmax = outlier_range_all(results,iqr_away=3)
     vmin = vmin_all = vmin_class = 0
@@ -397,21 +397,21 @@ def global_average_variance(result):
 
 results_folder=os.path.expanduser("~/variance_results/values")
 
-def get_path(model_name,dataset_name):
-    return os.path.join(results_folder, f"{model_name}_{dataset_name}.pickle")
+def get_path(model_name,dataset_name,conv_aggregation_function):
+    return os.path.join(results_folder, f"{model_name}_{dataset_name}_{conv_aggregation_function}.pickle")
 
 def get_model_and_dataset_from_path(path):
     filename_ext=os.path.basename(path)
     filename=os.path.splitext(filename_ext)[0]
-    model,dataset=filename.split("_")
-    return model, dataset
+    model,dataset,conv_aggregation_function=filename.split("_")
+    return model, dataset,conv_aggregation_function
 
-def save_results(model_name,dataset_name,results):
-    path=get_path(model_name,dataset_name)
+def save_results(model_name,dataset_name,results,conv_aggregation_function):
+    path=get_path(model_name,dataset_name,conv_aggregation_function)
     basename=os.path.dirname(path)
     os.makedirs(basename,exist_ok=True)
     pickle.dump(results,open(path,"wb"))
 
-def load_results(model_name,dataset_name):
-    path = get_path(model_name, dataset_name)
+def load_results(model_name,dataset_name,conv_aggregation_function):
+    path = get_path(model_name, dataset_name,conv_aggregation_function)
     return pickle.load(open(path, "rb"))

@@ -45,7 +45,7 @@ logging.info("Plotting...")
 n_rotations=16
 conv_aggregation_function="max"
 results=variance.run_all(model,rotated_model,dataset, config, n_rotations,conv_aggregation_function,batch_size=64)
-variance.save_results(model.name,dataset.name,results)
+variance.save_results(model.name,dataset.name,results,conv_aggregation_function)
 
 
 # logging.info("Plotting results...")
