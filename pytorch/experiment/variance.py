@@ -175,11 +175,11 @@ def transform_activations(activations_gpu,conv_aggregation_function):
         flat_activations = np.zeros((n, c))
         for i in range(n):
             if conv_aggregation_function=="mean":
-                flat_activations[i, :] = activations[i, :, :, :].nanmean(axis=(1, 2))
+                flat_activations[i, :] = np.nanmean(activations[i, :, :, :],axis=(1, 2))
             elif conv_aggregation_function=="max":
-                flat_activations[i, :] = activations[i, :, :, :].nanmax(axis=(1, 2))
+                flat_activations[i, :] = np.nanmax(activations[i, :, :, :],axis=(1, 2))
             elif conv_aggregation_function=="sum":
-                flat_activations[i, :] = activations[i, :, :, :].nansum(axis=(1, 2))
+                flat_activations[i, :] = np.nansum(activations[i, :, :, :],axis=(1, 2))
             else:
                 raise ValueError(f"Invalid aggregation function: {conv_aggregation_function}. Options: mean, max, sum")
         assert (len(flat_activations.shape) == 2)
