@@ -14,6 +14,8 @@ from pytorch.dataset import get_data_generator
 
 from pytorch.dataset import ImageDataset
 
+results_folder=os.path.expanduser("~/variance_results/values")
+
 def run_all_dataset(model,dataset,config,rotations,conv_aggregation_function,batch_size=256):
     n=dataset.x_test.shape[0]
     effective_batch_size = min(n, batch_size)
@@ -331,8 +333,8 @@ def run_all(model,rotated_model,dataset, config, n_rotations,conv_aggregation_fu
 
 
 def plots_base_folder():
-    #return os.path.expanduser("~/variance_results/plots/")
-    return os.path.join("plots")
+    return os.path.expanduser("~/variance_results/plots/")
+    #return os.path.join(results_folder,"plots/var")
 
 def plots_folder(model,dataset,conv_aggregation):
     folderpath = os.path.join(plots_base_folder(), f"{model}_{dataset}_{conv_aggregation}")
@@ -397,7 +399,7 @@ def global_average_variance(result):
                     rm.update(act)
     return rm.mean()
 
-results_folder=os.path.expanduser("~/variance_results/values")
+
 
 def get_path(model_name,dataset_name,conv_aggregation_function):
     return os.path.join(results_folder, f"{model_name}_{dataset_name}_{conv_aggregation_function}.pickle")
