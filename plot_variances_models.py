@@ -90,3 +90,5 @@ for result, model_name, dataset_name, conv_aggregation in results:
     dataset = datasets.get_dataset(dataset_name)
     model,rotated_model,scores,config=rotation.load_models(dataset,model_name,use_cuda)
     variance.plot_all(model,rotated_model,dataset,conv_aggregation,result)
+    del model
+    del dataset
