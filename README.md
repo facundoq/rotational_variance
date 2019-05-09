@@ -1,8 +1,8 @@
-# Measuring rotational (in)variance in Convolutional Neural Networks
+# Measuring (in)variances in Convolutional Neural Networks Internal Representations
 
 
 
-This repository contains the code necessary to obtain the experimental results published in the article [Measuring rotational (in)variance in Convolutional Neural Networks]() (link and bib entry coming soon).
+This repository contains the code necessary to obtain the experimental results published in the article [Measuring (in)variances in Convolutional Neural Networks Internal Representations]() (link and bib entry coming soon).
 
 ## Abstract
 `Convolutional neural networks (CNN) offer state-of-the-art performance in various computer vision tasks such as activity recognition, face detection, medical image analysis, among others. Many of those tasks need invariance to image transformations (i.e., rotations, translations or scaling). 
