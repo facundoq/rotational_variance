@@ -16,7 +16,7 @@ Afterwards, you can measure the (in)variance of each activation of the networks,
 
 ## How to run
 
-These instructions have been tested on a modern ubuntu-based distro with python version>=3.5.  
+These instructions have been tested on a modern ubuntu-based distro (>=18) with python version>=3.6.  
 
 * Clone the repository and cd to it:
     * `git clone https://github.com/facundoq/rotational_variance.git`
@@ -29,7 +29,9 @@ These instructions have been tested on a modern ubuntu-based distro with python 
     
 * Run the experiments with `python experiment> <model> <dataset>`
     * `experiment_rotation.py` trains two models with the dataset: one with the vanilla version, the other with a data-augmented version via rotations.
-    * `experiment_variance.py`  calculates the variance of the activations of the model for the rotated and unrotated model/dataset combinations.
+    * `experiment_variance.py`  calculates the variance of the activations of the model for the rotated and unrotated model/dataset combinations. Results are saved by default to `~/variance_results/`
+    * `plot_variances_models.py` generates plots of the variances for each/model dataset combination found in `~/variance_results/`. Both stratified/non-stratified versions of the measure are included in the plots. 
+    
 * The folder `plots` contains the results for any given model/dataset combination
 
 
