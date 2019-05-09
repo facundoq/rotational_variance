@@ -5,6 +5,10 @@
 This repository contains the code necessary to obtain the experimental results published in the article [Measuring rotational (in)variance in Convolutional Neural Networks]() (link and bib entry coming soon).
 
 ## Abstract
+`Convolutional neural networks (CNN) offer state-of-the-art performance in various computer vision tasks such as activity recognition, face detection, medical image analysis, among others. Many of those tasks need invariance to image transformations (i.e., rotations, translations or scaling). 
+By definition, convolutional layers are only equivariant to translation. Max pooling operations can empower CNNs with partial invariance, but full invariance to translation (or other transformations) requires additional schemes such as training with data augmentation, specialized layers, or both. However, there is no clear understanding of how these schemes work or should be applied. Indeed, they are only focused on the invariance of the CNNs' output with respect to the transformation, but do not delve into the internal representation of the network invariances. 
+This work proposes a versatile, straightforward and interpretable measure to quantify the (in)variance of CNN activations with respect to transformations of the input. Intermediate output values of feature maps and fully connected layers are also analyzed with respect to different input transformations. Our technique is validated on rotation transformations and compared with the relative (in)variance of several networks. More specifically, ResNet, AllConvolutional and VGG architectures were trained on CIFAR10 and MNIST databases with / without rotational data augmentation. Experiments reveal that rotation (in)variance of CNN outputs is class conditional. A distribution analysis also shows that lower layers are the most invariant, which seems to go against previous guidelines that recommend placing invariances near the network output and equivariances near the input.
+`
 
 ## What can you do with this code
 
