@@ -2,7 +2,19 @@
 
 
 
-This repository contains the code necessary to obtain the experimental results published in the article [Measuring (in)variances in Convolutional Neural Networks Internal Representations]() (link and bib entry coming soon).
+This repository contains the code necessary to obtain the experimental results published in the article [Measuring (in)variances in Convolutional Neural Networks Internal Representations](https://link.springer.com/chapter/10.1007/978-3-030-27713-0_9) 
+
+[Institutional repository version](http://sedici.unlp.edu.ar/handle/10915/80387)
+
+`@inbook{inbook,
+author = {Quiroga, Facundo and Torrents-Barrena, Jordina and Lanzarini, Laura and Puig, Domenec},
+year = {2019},
+month = {07},
+pages = {98-109},
+title = {Measuring (in)variances in Convolutional Networks},
+isbn = {978-3-030-27712-3},
+doi = {10.1007/978-3-030-27713-0_9}
+}`
 
 ## Abstract
 `Convolutional neural networks (CNN) offer state-of-the-art performance in various computer vision tasks such as activity recognition, face detection, medical image analysis, among others. Many of those tasks need invariance to image transformations (i.e., rotations, translations or scaling). 
