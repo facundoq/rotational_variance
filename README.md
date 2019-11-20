@@ -4,7 +4,10 @@
 
 This repository contains the code necessary to obtain the experimental results published in the article [Measuring (in)variances in Convolutional Neural Networks Internal Representations](https://link.springer.com/chapter/10.1007/978-3-030-27713-0_9) 
 
-[Institutional repository version](http://sedici.unlp.edu.ar/handle/10915/80387)
+[Institutional repository version (open access)](http://sedici.unlp.edu.ar/bitstream/handle/10915/80387/Documento_completo.pdf?sequence=1&isAllowed=y)
+
+
+# Bibtex entry
 
 `@inbook{inbook,
 author = {Quiroga, Facundo and Torrents-Barrena, Jordina and Lanzarini, Laura and Puig, Domenec},
